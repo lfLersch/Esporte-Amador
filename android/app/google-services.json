@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "486020080722",
+    "project_id": "esporte-amador-b7e84",
+    "storage_bucket": "esporte-amador-b7e84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486020080722:android:2a38eee265238a5183eb8b",
+        "android_client_info": {
+          "package_name": "com.example.esporte_amador"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486020080722-0r299leq12v5rk508ifo05vausdktot4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB1uUftNIQzGdfSTaZ8DaJ7HgX668KG_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486020080722-0r299leq12v5rk508ifo05vausdktot4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
