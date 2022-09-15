@@ -1,10 +1,12 @@
 import 'package:esporte_amador/Helper/firebase_helper.dart';
+import 'package:esporte_amador/Pages/cup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../Models/cup.dart';
 
 class HomePage extends StatefulWidget {
+  static const id = 'HomePage';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -45,26 +47,31 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               itemCount: cups.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(cups[index].name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                            Text('Titulares/Aspirantes', style: TextStyle(color: Colors.white),),
-                          ],
-                        ),
-                      )),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, CupPage.id);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 18.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(cups[index].name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text('Titulares/Aspirantes', style: TextStyle(color: Colors.white),),
+                            ],
+                          ),
+                        )),
+                  ),
                 );
               },
             ),
