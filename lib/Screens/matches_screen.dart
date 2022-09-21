@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import '../Models/class.dart';
+import '../Models/game.dart';
 
-import '../Helper/file_helper.dart';
-
-class MatchesScreen extends StatefulWidget {
-  const MatchesScreen({Key? key}) : super(key: key);
+class GamesScreen extends StatefulWidget {
+  final List<Class> categories;
+  const GamesScreen({Key? key, required this.categories}) : super(key: key);
 
   @override
-  State<MatchesScreen> createState() => _MatchesScreenState();
+  State<GamesScreen> createState() => _GamesScreenState();
 }
 
-class _MatchesScreenState extends State<MatchesScreen> {
+class _GamesScreenState extends State<GamesScreen> {
+  int category = 0;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -17,103 +19,102 @@ class _MatchesScreenState extends State<MatchesScreen> {
         color: Colors.black38,
         child: Padding(
           padding: const EdgeInsets.only(
-              left: 30.0, right: 30.0, top: 10, bottom: 10),
+              left: 20.0, right: 20.0, top: 10, bottom: 10),
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                color: Colors.black87,
-                child: Center(
-                  child: Text(
-                    '1ª Rodada',
-                    style: TextStyle(fontSize: 20, color: Colors.white70),
-                  ),
-                ),
+              DropdownButton(items: widget.categories.map<DropdownMenuItem<String>>((Class value) {
+                return DropdownMenuItem<String>(
+                  value: value.name,
+                  child: Text(value.name),
+                );
+              }).toList(), onChanged: (value){
+                setState((){
+                  category = widget.categories.indexWhere((element) => element.name == value);
+                });
+              }),
+              Column(
+                children:
+                  buildGamesContainer()
               ),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
-              Container(
-                height: 1,
-                color: Colors.black38,
-              ),
-              MatchContainer(),
             ],
           ),
         ),
       ),
     );
   }
+
+  List<Widget> buildGamesContainer(){
+    List<Widget> table = [];
+    String round = widget.categories[category].games[0].round;
+    table.add(buildRoundContainer(round),);
+    for(Game game in widget.categories[category].games){
+      if(game.round != round){
+        table.add(buildRoundContainer(game.round),);
+      }
+      table.add(GameContainer(game: game));
+      round = game.round;
+    }
+    return table;
+  }
+
+  Container buildRoundContainer(String round) {
+    return Container(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        color: Colors.black87,
+        child: Center(
+          child: Text(
+            round,
+            style: const TextStyle(fontSize: 20, color: Colors.white70),
+          ),
+        ),
+      );
+  }
 }
 
-class MatchContainer extends StatelessWidget {
-  const MatchContainer({
+class GameContainer extends StatelessWidget {
+  final Game game;
+  const GameContainer({
     Key? key,
+    required this.game,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black54,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(top: 20, bottom: 20, right: 10, left: 10),
       child: Row(
         children: [
           Expanded(
-            child: Text('Duvidosa',
-                style: TextStyle(fontSize: 20, color: Colors.white70)),
+            child: Text(game.team1.name,
+                style: TextStyle(fontSize: 19, color: Colors.white70)),
           ),
           Center(
-            child: (Text(
-              '1 x 1',
-              style: TextStyle(fontSize: 20, color: Colors.white70),
-            )),
+            child: Row(
+              children: [
+                Text(
+                  (game.team1.goals == null)
+                      ? ''
+                      : game.team1.goals!.toString(),
+                  style: TextStyle(fontSize: 19, color: Colors.white70),
+                ),
+                Text(
+                  ' x ',
+                  style: TextStyle(fontSize: 19, color: Colors.white70),
+                ),
+                Text(
+                  (game.team1.goals == null)
+                      ? ''
+                      : game.team2.goals!.toString(),
+                  style: TextStyle(fontSize: 19, color: Colors.white70),
+                )
+              ],
+            ),
           ),
           Expanded(
-            child: Text('Cecília',
+            child: Text(game.team2.name,
                 textAlign: TextAlign.end,
-                style: TextStyle(fontSize: 20, color: Colors.white70)),
+                style: TextStyle(fontSize: 19, color: Colors.white70)),
           ),
         ],
       ),

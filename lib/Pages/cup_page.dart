@@ -1,3 +1,4 @@
+import 'package:esporte_amador/Models/cup.dart';
 import 'package:flutter/material.dart';
 
 import '../Screens/leaderboard_screen.dart';
@@ -17,6 +18,7 @@ class _CupPageState extends State<CupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Cup cup = ModalRoute.of(context)!.settings.arguments as Cup;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -32,8 +34,8 @@ class _CupPageState extends State<CupPage> {
         ),
         body: TabBarView(
           children: [
-            LeaderboardScreen(),
-            MatchesScreen(),
+            LeaderboardScreen(categories: cup.categories,),
+            GamesScreen(categories: cup.categories,),
           ],
         ),
       ),

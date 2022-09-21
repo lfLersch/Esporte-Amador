@@ -1,9 +1,12 @@
 import 'package:esporte_amador/Helper/firebase_helper.dart';
+import 'package:esporte_amador/Helper/soccer_helper.dart';
 import 'package:esporte_amador/Pages/cup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../Models/class.dart';
 import '../Models/cup.dart';
+import '../Models/game.dart';
 
 class HomePage extends StatefulWidget {
   static const id = 'HomePage';
@@ -48,8 +51,14 @@ class _HomePageState extends State<HomePage> {
               itemCount: cups.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, CupPage.id);
+                  onTap: () async {
+                    List<Game> games = await FirebaseHelper.getGames(cups[index].id);
+                    cups[index].addGames(games);
+                    for(Class category in cups[index].categories){
+                      category.leaderboard = SoccerHelper.getLeaderboardFromGames(games, category);
+                    }
+
+                    Navigator.pushNamed(context, CupPage.id, arguments: cups[index]);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
